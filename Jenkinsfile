@@ -28,7 +28,7 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t jack/hello:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t jack/hello:latest ."
                }
           }
 
@@ -43,7 +43,7 @@ pipeline {
 
           stage("Docker push") {
                steps {
-                    sh "docker push jack/hello:${BUILD_TIMESTAMP}"
+                    sh "docker push jack/hello:latest"
                }
           }
      }
