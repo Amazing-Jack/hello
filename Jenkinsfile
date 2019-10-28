@@ -28,14 +28,14 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t jack/hello:latest ."
+                    sh "docker build -t amazingjack/hello:latest ."
                }
           }
 
           stage("Docker push") {
                steps {
                     withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "" ]) {
-                         sh 'docker push jack/hello:latest'
+                         sh 'docker push amazingjack/hello:latest'
                     }
                }
           }
