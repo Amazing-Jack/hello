@@ -34,17 +34,13 @@ pipeline {
 
           stage("Docker push") {
                steps {
-                    def artServer  Artifactory.server('Local-Artifactory')
-                    artServer.credentialsId='Artifactory-Credentials'
-                    def artDocker= Artifactory.docker server: artServer
-                    def tagName="jack/hello:${BUILD_TIMESTAMP}"
-                    def buildInfo = Artifactory.newBuildInfo()
-                    sh 'pwd'
-                    sh 'ls -al'
-                    sh 'cat Dockerfile'
-                    docker.build(tagName)
-                    buildInfo.env.vars['status2'] = 'pre-test'
-                    artDocker.push(tagName, 'docker-dev-local2', buildInfo)
+                    docker.withRegistry('http://localhost:8081/artifactory/repository/local/docker-dev-local2/', 'Artifactory-Credentials') {
+
+                         def helloImage = docker.build("jack/hello:${BUILD_TIMESTAMP}")
+
+                         /* Push the container to the custom Registry */
+                         helloImage.push()
+                    }
                }
           }
      }
