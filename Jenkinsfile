@@ -31,10 +31,10 @@ pipeline {
                     sh "docker build -t jack/hello:latest ."
                }
           }
-          
+
           stage("Docker push") {
                steps {
-                    withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "" ]) {
+                    withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "https://cloud.docker.com/repository/registry-1.docker.io/amazingjack/test" ]) {
                          sh 'docker push jack/hello:latest'
                     }
                }
