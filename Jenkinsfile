@@ -34,7 +34,7 @@ pipeline {
 
           stage("Docker push") {
                steps {
-                    withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "https://hub.docker.com/r/amazingjack/test" ]) {
+                    withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "" ]) {
                          sh 'docker push jack/hello:latest'
                     }
                }
