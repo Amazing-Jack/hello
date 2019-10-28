@@ -32,15 +32,18 @@ pipeline {
                }
           }
 
+          stage("Docker login") {
+               steps {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Dockerhub-Credentials',
+                               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                         sh "docker login --username $USERNAME --password $PASSWORD"
+                    }
+               }
+          }
+
           stage("Docker push") {
                steps {
-                    docker.withRegistry('http://localhost:8081/artifactory/repository/local/docker-dev-local2/', 'Artifactory-Credentials') {
-
-                         def helloImage = docker.build("jack/hello:${BUILD_TIMESTAMP}")
-
-                         /* Push the container to the custom Registry */
-                         helloImage.push()
-                    }
+                    sh "docker push jack/hello:${BUILD_TIMESTAMP}"
                }
           }
      }
