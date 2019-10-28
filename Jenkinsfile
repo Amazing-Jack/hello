@@ -31,20 +31,12 @@ pipeline {
                     sh "docker build -t jack/hello:latest ."
                }
           }
-
-          stage("Docker login") {
-               steps {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Dockerhub-Credentials',
-                               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         sh 'echo uname=$USERNAME pwd=$PASSWORD'
-                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-                    }
-               }
-          }
-
+          
           stage("Docker push") {
                steps {
-                    sh "docker push jack/hello:latest"
+                    withDockerRegistry([ credentialsId: "Dockerhub-Credentials", url: "" ]) {
+                         sh 'docker push jack/hello:latest'
+                    }
                }
           }
      }
