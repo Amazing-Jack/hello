@@ -28,7 +28,7 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t amazingjack/${BUILD_TIMESTAMP} ."
+                    sh "docker build -t amazingjack/hello:${BUILD_TIMESTAMP} ."
                }
           }
 
